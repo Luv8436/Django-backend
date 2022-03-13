@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script type="text/javascript">
+        var data = JSON.parse("{{readings|escapejs}}");
+        temperatures = []
+        for(let i=0;i<data.temperature.length;i++){
+            temperatures.push({
+                'y' : data.temperature[i].y,
+                'x' : new Date(data.temperature[i].x),
+            })
+        }
+
+        humiditites = []
+        for(let i=0;i<data.humidity.length;i++){
+            humiditites.push({
+                'y' : data.humidity[i].y,
+                'x' : new Date(data.humidity[i].x),
+            })
+        }
+        
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+            title:{
+            text: "Temperature and Humidity VS Time"
+            },
+            data: [
+            {        
+                type: "line",
+                label:'temperature',
+                lineColor:"red", //**Change the color here
+                dataPoints: temperatures
+            },
+            {        
+                type: "line",
+                label:'humidity',
+                lineColor:"green", //**Change the color here
+                dataPoints: humiditites
+            },
+            ]
+            });
+
+            chart.render();
+        }
+        </script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <ul>
+    {% for item in readings.temperature %}
+        <li>{{ item.x }}</li>
+        <li>{{ item.y }}</li>
+    {% endfor %}
+
+    </ul>
+    <h1></h1>
+</body>
+</html>
