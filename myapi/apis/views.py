@@ -80,7 +80,7 @@ def get_devices(request):
             device.save()
             response = json.dumps({'Success': 'Device added successfully!'})
         except:
-            response = json.dumps({'Error': 'Guitar could not be added!'})
+            response = json.dumps({'Error': 'Device could not be added!'})
         return HttpResponse(response, content_type='application/json')
     
     else:
